@@ -37,4 +37,13 @@ public class SaleServiceImpl implements SaleService{
         return ordersRepository.save(order);
     }
     
+    @Override
+    public boolean delete(int id) {
+        try {
+            ordersRepository.deleteById(id);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 }

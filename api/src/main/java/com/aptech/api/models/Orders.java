@@ -40,7 +40,7 @@ public class Orders implements Serializable {
     @Column(name = "Quantity")
     private int quantity;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "Code", columnDefinition = "varchar(10)", referencedColumnName = "Code", nullable = false)
     @JsonBackReference
     private Customer customer;

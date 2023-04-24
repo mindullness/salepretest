@@ -3,10 +3,12 @@ package com.aptech.api.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +22,6 @@ import com.aptech.api.services.SaleService;
 
 import jakarta.validation.Valid;
 
-
 @RestController
 @CrossOrigin(origins = "${security.cors.origin}", methods = {
         RequestMethod.GET, RequestMethod.POST,
@@ -32,25 +33,33 @@ public class SaleController {
     private SaleService saleService;
 
     @GetMapping(path = "/customers")
-    public ResponseEntity<List<Customer>> getCustomers(){
+    public ResponseEntity<List<Customer>> getCustomers() {
         return ResponseEntity.ok(saleService.getCustomers());
     }
 
     @GetMapping(path = "/ordersByCode/{code}")
-    public ResponseEntity<List<Orders>> getOrdersByCode(@PathVariable String code){
+    public ResponseEntity<List<Orders>> getOrdersByCode(@PathVariable String code) {
         return ResponseEntity.ok(saleService.getOrdersByCode(code));
     }
 
     @PostMapping(path = "/addOrder")
-    public ResponseEntity<Orders> addOrder(@RequestBody Orders order){
+    public ResponseEntity<Orders> addOrder(@RequestBody Orders order) {
         return ResponseEntity.ok(saleService.createOrders(order));
     }
 
     // @PostMapping(path = "/addOrder")
     // public String addOrder(@RequestBody @Valid Orders order, Errors err){
-    //     if(err.hasErrors()){
-    //         return "redirect/customers";
-    //     }
-    //     return err.toString();
+    // if(err.hasErrors()){
+    // return "redirect/customers";
     // }
+    // return err.toString();
+    // }
+
+    @DeleteMapping(path = "/delete/{id}")
+    public ResponseEntity<?> deleteBlog(@PathVariable int id) {
+        if (saleService.delete(id)) {
+            return new ResponseEntity<String>("Delete successfully", HttpStatus.OK);
+        }
+        return new ResponseEntity<String>("Failed to delete", HttpStatus.NOT_MODIFIED);
+    }
 }

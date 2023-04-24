@@ -10,4 +10,5 @@ public interface SaleService {
 
     List<Orders> getOrdersByCode(String code);
     Orders createOrders(Orders order);
+    boolean delete(int order); 
 }
